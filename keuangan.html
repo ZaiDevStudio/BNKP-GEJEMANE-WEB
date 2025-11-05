@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keuangan BNKP JEMAAT GEJEMANE</title>
+<style>
+/* --- 1. CSS UTAMA --- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#f2f2f2;color:#004d40;}
+header{background:#004d40;color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 4px 5px rgba(0,0,0,0.3);}
+.header-left{display:flex;align-items:center;gap:10px;}
+.logo{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #FFD700;}
+.header-text .baris1{font-weight:bold;color:#FFD700;}
+.header-text .baris2{font-size:0.95em;}
+.header-text .baris3{font-size:0.8em;font-style:italic;}
+.hamburger{font-size:30px;cursor:pointer;color:#FFD700;}
+nav{display:none;flex-direction:column;background:#004d40;text-align:center;}
+nav.active{display:flex;}
+nav a{color:white;text-decoration:none;padding:12px;border-top:1px solid rgba(255,255,255,0.2);transition:0.3s;}
+nav a:hover{background:#00695c;}
+@media(min-width:768px){nav{display:flex !important;flex-direction:row;justify-content:center;} .hamburger{display:none;} nav a{border:none;padding:14px 20px;}}
+.table-container{background:white;margin:20px;padding:10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:800px;}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd;}
+th{background:#004d40;color:white;position:sticky;top:0;z-index:10;}
+tr:hover{background:#f1f1f1;}
+.filter-tanggal{margin-bottom:10px;}
+.filter-tanggal input{padding:6px;margin-right:5px;}
+.filter-tanggal button{padding:6px 10px;background:#FFD700;border:none;border-radius:4px;cursor:pointer;color:#004d40;font-weight:bold;}
+.filter-tanggal button:hover{background:#ffca28;}
+footer{background:#004d40;color:#FFD700;text-align:center;padding:25px 10px;margin-top:20px;}
+
+/* --- 2. CSS TAMBAHAN UNTUK SALDO (Dipastikan tampil jelas) --- */
+.saldo-akhir-row td {
+  font-weight: **bold**;
+  background-color: #e0f2f1; /* Latar belakang yang lebih terang */
+  border-top: 2px solid #004d40; /* Garis tebal di atas */
+  color: #004d40;
+  font-size: 1.1em;
+}
+/* Memastikan kolom keterangan untuk saldo rata kanan */
+.saldo-akhir-row td:first-child {
+    text-align: right;
+    padding-right: 20px !important;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="logo.png" alt="Logo BNKP" class="logo">
+    <div class="header-text">
+      <div class="baris1">BANUA NIHA KERISO PROTESTAN</div>
+      <div class="baris2">JEMAAT GEJEMANE</div>
+      <div class="baris3">Alamat: Dusun III Hiliawawo, Tetedoi</div>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</header>
+
+<nav id="navMenu">
+  <a href="index.html">Beranda</a>
+  <a href="profil.html">Profil</a>
+  <a href="keuangan.html">Keuangan</a>
+  <a href="pengumuman.html">Pengumuman</a>
+  <a href="galeri.html">Galeri</a>
+  <a href="tentang.html">Tentang</a>
+  <a href="kontak.html">Kontak</a>
+</nav>
+
+<div id="kasContainer"></div>
+
+<footer>
+  <p>&copy; <span id="tahun"></span> BNKP Jemaat Gejemane. Semua hak cipta dilindungi.</p>
+</footer>
+
+<script>
+document.getElementById("tahun").textContent = new Date().getFullYear();
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+hamburger.addEventListener('click', ()=> navMenu.classList.toggle('active'));
+
+// Daftar kas dan file JSON
+const daftarKas = [
+  {nama:"Kas Umum", file:"kas_umum.json"},
+  {nama:"Kas Pembangunan", file:"kas_pembangunan.json"},
+  {nama:"Kas Diakonia", file:"kas_diakonia.json"},
+  {nama:"Kas Komisi Wanita", file:"kas_komisi_wanita.json"},
+  {nama:"Kas Remaja/Pemuda", file:"kas_remaja_pemuda.json"},
+  {nama:"Kas Anak Sekolah", file:"kas_anak_sekolah.json"}
+];
+
+const kasContainer = document.getElementById("kasContainer");
+
+// Buat HTML tiap kas
+daftarKas.forEach((kas,index)=>{
+  kasContainer.innerHTML += `
+    <div class="table-container">
+      <h3>💰 ${kas.nama}</h3>
+      <div class="filter-tanggal">
+        Dari: <input type="date" id="tglAwal${index}"> Sampai: <input type="date" id="tglAkhir${index}">
+        <button onclick="muatKas('${kas.file}','tabelKas${index}','tglAwal${index}','tglAkhir${index}')">Tampilkan</button>
+      </div>
+      <table id="tabelKas${index}">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Hari/Tanggal</th>
+            <th>Keterangan Uang Masuk</th>
+            <th>Uang Masuk</th>
+            <th>Keterangan Uang Keluar</th>
+            <th>Uang Keluar</th>
+            <th>Jumlah</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+        </table>
+    </div>
+  `;
+});
+
+// Fungsi muat kas yang DIMODIFIKASI untuk menyertakan Total Saldo Akhir
+async function muatKas(fileJson,idTabel,idTglAwal,idTglAkhir){
+  try {
+    const res = await fetch(fileJson);
+    if(!res.ok) throw new Error("Gagal load JSON. Status: " + res.status);
+    const data = await res.json();
+    
+    // Ambil elemen tabel
+    const table = document.getElementById(idTabel);
+    const tbody = table.querySelector('tbody');
+    
+    // Hapus konten yang ada
+    tbody.innerHTML = "";
+    
+    // Hapus tfoot jika sudah ada (untuk pembaruan filter)
+    let tfoot = table.querySelector('tfoot');
+    if (tfoot) {
+        table.removeChild(tfoot);
+    }
+
+    const tglAwal = document.getElementById(idTglAwal).value ? new Date(document.getElementById(idTglAwal).value) : null;
+    
+    // Penyesuaian filter tanggal akhir agar inklusif (sampai akhir hari)
+    const tglAkhirRaw = document.getElementById(idTglAkhir).value;
+    const tglAkhir = tglAkhirRaw ? new Date(tglAkhirRaw) : null;
+    if (tglAkhir) {
+        // Tambah 1 hari agar filter bekerja inklusif hingga akhir hari yang dipilih
+        tglAkhir.setDate(tglAkhir.getDate() + 1); 
+    }
+    
+    let saldo = 0;
+    let dataDitemukan = false;
+
+    data.forEach(d=>{
+      const tgl = new Date(d.tanggal);
+      
+      // Filter: tanggal harus >= tglAwal dan < tglAkhir (yang sudah ditambah 1 hari)
+      if((!tglAwal || tgl>=tglAwal) && (!tglAkhir || tgl<tglAkhir)){ 
+        dataDitemukan = true;
+        saldo += (d.masuk||0) - (d.keluar||0);
+        
+        const hari = new Date(d.tanggal).toLocaleDateString('id-ID',{weekday:'long',day:'2-digit',month:'short',year:'numeric'});
+        
+        // Tambahkan baris data
+        tbody.innerHTML += `<tr>
+          <td>${d.no}</td>
+          <td>${hari}</td>
+          <td>${d.ket_masuk||''}</td>
+          <td>${d.masuk?d.masuk.toLocaleString('id-ID'):'0'}</td>
+          <td>${d.ket_keluar||''}</td>
+          <td>${d.keluar?d.keluar.toLocaleString('id-ID'):'0'}</td>
+          <td>${saldo.toLocaleString('id-ID')}</td>
+        </tr>`;
+      }
+    });
+
+    // --- LOGIKA PENAMBAHAN BARIS TOTAL SALDO AKHIR ---
+    
+    if (dataDitemukan) { 
+        // Buat elemen tfoot baru
+        tfoot = table.createTFoot();
+        tfoot.innerHTML = `
+            <tr class="saldo-akhir-row">
+                <td colspan="6">TOTAL SALDO AKHIR</td>
+                <td>${saldo.toLocaleString('id-ID')}</td>
+            </tr>
+        `;
+    } else {
+        // Tampilkan pesan jika tidak ada data yang difilter
+        tbody.innerHTML = `<tr><td colspan="7">Tidak ada data yang ditemukan dalam rentang tanggal ini.</td></tr>`;
+    }
+
+  } catch(err){
+    console.error("Kesalahan saat memuat kas:", err);
+    
+    // Tampilkan pesan error yang lebih detail
+    const errorMessage = err.message.includes("404") 
+        ? `Gagal memuat file **${fileJson}**. Pastikan file tersebut ada di direktori yang sama.` 
+        : `Gagal memuat data kas: ${err.message}.`;
+
+    const tbody = document.querySelector(`#${idTabel} tbody`);
+    tbody.innerHTML = `<tr><td colspan="7" style="color: red; font-weight: bold;">${errorMessage}</td></tr>`;
+    
+    // Hapus tfoot jika ada error
+    const table = document.getElementById(idTabel);
+    let tfoot = table.querySelector('tfoot');
+    if (tfoot) table.removeChild(tfoot);
+  }
+}
+
+// Load semua kas otomatis saat halaman dibuka
+daftarKas.forEach((kas,index)=>{
+  muatKas(kas.file, `tabelKas${index}`, `tglAwal${index}`, `tglAkhir${index}`);
+});
+</script>
+
+</body>
+</html>

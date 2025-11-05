@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jadwal BNKP JEMAAT GEJEMANE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#f2f2f2;color:#004d40;}
+header{background:#004d40;color:white;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 4px 5px rgba(0,0,0,0.3);}
+.header-left{display:flex;align-items:center;gap:10px;}
+.logo{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #FFD700;}
+.header-text .baris1{font-weight:bold;color:#FFD700;}
+.header-text .baris2{font-size:0.95em;}
+.header-text .baris3{font-size:0.8em;font-style:italic;}
+.hamburger{font-size:30px;cursor:pointer;color:#FFD700;}
+nav{display:none;flex-direction:column;background:#004d40;text-align:center;}
+nav.active{display:flex;}
+nav a{color:white;text-decoration:none;padding:12px;border-top:1px solid rgba(255,255,255,0.2);transition:0.3s;}
+nav a:hover{background:#00695c;}
+@media(min-width:768px){nav{display:flex !important;flex-direction:row;justify-content:center;} .hamburger{display:none;} nav a{border:none;padding:14px 20px;}}
+.main-content{margin:20px;}
+.table-container{background:white;margin:10px 0;padding:10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd;}
+th{background:#004d40;color:white;position:sticky;top:0;z-index:10;}
+tr:hover{background:#f1f1f1;}
+.tr-ibadah-pagi{background-color:#d0f0c0;}
+.tr-ibadah-siang{background-color:#ffe0b2;}
+.tr-sekolah-minggu{background-color:#bbdefb;}
+.tr-minggu-ini{border-left:4px solid #FFD700;font-weight:bold;}
+.tr-hari-ini{background-color:#fff59d !important;font-weight:bold;}
+
+/* Filter & tombol hari ini */
+.filter-tanggal{margin-bottom:10px;}
+.filter-tanggal input{padding:6px;margin-right:5px;}
+.filter-tanggal button{padding:6px 10px;background:#FFD700;border:none;border-radius:4px;cursor:pointer;color:#004d40;font-weight:bold;}
+.filter-tanggal button:hover{background:#ffca28;}
+footer{background:#004d40;color:#FFD700;text-align:center;padding:25px 10px;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <img src="logo.png" alt="Logo BNKP" class="logo">
+    <div class="header-text">
+      <div class="baris1">BANUA NIHA KERISO PROTESTAN</div>
+      <div class="baris2">JEMAAT GEJEMANE</div>
+      <div class="baris3">Alamat: Dusun III Hiliawawo, Tetedoi</div>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger">&#9776;</div>
+</header>
+
+<nav id="navMenu">
+  <a href="index.html">Beranda</a>
+  <a href="profil.html">Profil</a>
+  <a href="keuangan.html">Keuangan</a>
+  <a href="jadwal.html">Jadwal</a>
+  <a href="pengumuman.html">Pengumuman</a>
+  <a href="galeri.html">Galeri</a>
+  <a href="tentang.html">Tentang</a>
+  <a href="kontak.html">Kontak</a>
+</nav>
+
+<div class="main-content">
+  <h2>📅 Jadwal Mingguan Gereja</h2>
+
+  <div class="filter-tanggal">
+    Dari: <input type="date" id="tglAwal">
+    Sampai: <input type="date" id="tglAkhir">
+    <button onclick="muatJadwal()">Tampilkan</button>
+    <button onclick="scrollKeHariIni()">Hari Ini</button>
+  </div>
+
+  <div class="table-container">
+    <table id="tabelJadwal">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Hari/Tanggal</th>
+          <th>Nama Minggu</th>
+          <th>Agendre</th>
+          <th>Wa’ebua Kain Agendre</th>
+          <th>Nats Hafalan</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; <span id="tahun"></span> BNKP Jemaat Gejemane. Semua hak cipta dilindungi.</p>
+</footer>
+
+<script>
+document.getElementById("tahun").textContent = new Date().getFullYear();
+
+// Toggle menu hamburger
+const hamburger = document.getElementById('hamburger');
+const navMenu = document.getElementById('navMenu');
+hamburger.addEventListener('click', ()=> navMenu.classList.toggle('active'));
+
+let jadwalData = [];
+
+// Muat jadwal dari JSON
+async function muatJadwal(){
+  try{
+    const res = await fetch("jadwal.json");
+    if(!res.ok) throw new Error("Gagal load JSON");
+    jadwalData = await res.json();
+    renderJadwal();
+  }catch(err){
+    console.error(err);
+  }
+}
+
+function renderJadwal(){
+  const tbody = document.querySelector("#tabelJadwal tbody");
+  tbody.innerHTML = "";
+
+  const tglAwal = document.getElementById("tglAwal").value ? new Date(document.getElementById("tglAwal").value) : null;
+  const tglAkhir = document.getElementById("tglAkhir").value ? new Date(document.getElementById("tglAkhir").value) : null;
+  const today = new Date();
+
+  jadwalData.forEach(d=>{
+    const tgl = new Date(d.hariTanggal);
+    if((!tglAwal || tgl>=tglAwal) && (!tglAkhir || tgl<=tglAkhir)){
+      const hari = tgl.toLocaleDateString('id-ID',{weekday:'long',day:'2-digit',month:'short',year:'numeric'});
+
+      // Warna per jenis kegiatan
+      let kelas='';
+      const agendreLower = d.agendre.toLowerCase();
+      if(agendreLower.includes('pagi')) kelas='tr-ibadah-pagi';
+      else if(agendreLower.includes('siang')) kelas='tr-ibadah-siang';
+      else if(agendreLower.includes('sekolah')) kelas='tr-sekolah-minggu';
+
+      // Highlight minggu ini
+      const mingguIniStart = new Date();
+      mingguIniStart.setDate(today.getDate() - today.getDay());
+      const mingguIniEnd = new Date(mingguIniStart);
+      mingguIniEnd.setDate(mingguIniStart.getDate() + 6);
+      if(tgl >= mingguIniStart && tgl <= mingguIniEnd) kelas += ' tr-minggu-ini';
+
+      // Highlight hari ini
+      const isToday = tgl.toDateString() === today.toDateString();
+      if(isToday) kelas += ' tr-hari-ini';
+
+      tbody.innerHTML += `<tr class="${kelas}" id="row-${d.no}">
+        <td>${d.no}</td>
+        <td>${hari}</td>
+        <td>${d.namaMinggu}</td>
+        <td>${d.agendre}</td>
+        <td>${d.waebuaKainAgendre}</td>
+        <td>${d.natsHafalan}</td>
+      </tr>`;
+    }
+  });
+}
+
+// Scroll ke baris hari ini
+function scrollKeHariIni(){
+  const today = new Date();
+  const tbody = document.querySelector("#tabelJadwal tbody");
+  for(let d of jadwalData){
+    const tgl = new Date(d.hariTanggal);
+    if(tgl.toDateString() === today.toDateString()){
+      const row = document.getElementById(`row-${d.no}`);
+      if(row){
+        row.scrollIntoView({behavior:'smooth', block:'center'});
+        row.style.transition='background 1s';
+        row.style.backgroundColor='#fff176'; // highlight sementara
+        setTimeout(()=>row.style.backgroundColor='',1000);
+      }
+      break;
+    }
+  }
+}
+
+// Muat semua jadwal saat halaman terbuka
+muatJadwal();
+</script>
+
+</body>
+</html>

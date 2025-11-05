@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil & Sejarah - BNKP Jemaat Gejemane</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET DAN DASAR === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* === HEADER (MODIFIKASI: Mengubah dari flex menjadi blok) === */
+    header {
+      background-color: #004d40;
+      color: white;
+      display: block; /* Agar logo dan nav berada di baris terpisah */
+      padding: 10px 0; /* Padding vertikal */
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      /* PROPERTI PENTING: Tengah pada baris header */
+      max-width: fit-content;
+      margin: 0 auto 10px auto; /* Tengah di barisnya, beri jarak bawah */
+      padding: 0 20px; /* Tambahkan padding agar tidak terlalu rapat di pinggir */
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ffcc00;
+    }
+
+    .logo-text {
+      line-height: 1.3;
+    }
+
+    .logo-text h1 {
+      font-size: 1.2em;
+      color: #ffcc00;
+      font-weight: 600;
+    }
+
+    .logo-text h2 {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    .logo-text p {
+      font-size: 0.85em;
+      color: #ddd;
+    }
+
+    /* === NAVIGASI (MODIFIKASI: Item menu di tengah) === */
+    nav {
+      width: 100%;
+      background-color: #004d40;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+      
+      /* PROPERTI PENTING UNTUK POSISI */
+      justify-content: center; /* ITEM MENU RATA TENGAH */
+      max-width: 1100px; /* Batasi lebar agar rapi seperti konten utama */
+      margin: 0 auto; /* Blok NAV UL di Tengah Halaman */
+      padding: 10px 20px; /* Padding untuk jarak dari tepi */
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      background-color: rgba(255, 204, 0, 0.2);
+      color: #ffcc00;
+    }
+
+    /* === HAMBURGER (Penyesuaian untuk mobile) === */
+    .hamburger {
+      display: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #ffcc00;
+    }
+
+    @media (max-width: 768px) {
+      /* Kembalikan header ke flex di mobile */
+      header {
+        display: flex; 
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+      }
+
+      .logo-container {
+        margin: 0; /* Hapus margin auto di mobile */
+        padding: 0;
+      }
+
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #004d40;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      nav ul {
+        /* Hapus properti centering di mobile untuk layout kolom */
+        justify-content: flex-start; 
+        flex-direction: column;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+      }
+
+      nav ul li a {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    /* === KONTEN UTAMA === */
+    main {
+      padding: 50px 10%;
+      background-color: #fff;
+      margin: 30px auto;
+      max-width: 1100px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      line-height: 1.8;
+    }
+
+    main h2 {
+      color: #004d40;
+      font-size: 2em;
+      border-bottom: 3px solid #ffcc00;
+      padding-bottom: 8px;
+      margin-bottom: 25px;
+    }
+
+    main h3 {
+      color: #ffcc00;
+      font-size: 1.4em;
+      margin-top: 25px;
+    }
+
+    .visi-text {
+      background: #f0fff4;
+      border-left: 5px solid #004d40;
+      padding: 10px 15px;
+      font-style: italic;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    ul.misi-list {
+      list-style: none;
+      margin-top: 10px;
+      padding: 0;
+    }
+
+    ul.misi-list li {
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%23004d40" viewBox="0 0 24 24" width="20" height="20"><path d="M9 16.17l-3.88-3.88L4 13.41l5 5 12-12-1.41-1.41z"/></svg>') no-repeat left center;
+      padding-left: 30px;
+      margin-bottom: 10px;
+    }
+
+    main p {
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background-color: #004d40;
+      color: #ffcc00;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo BNKP Gejemane" />
+      <div class="logo-text">
+        <h1>BANUA NIHA KERISO PROTESTAN</h1>
+        <h2>JEMAAT GEJEMANE</h2>
+        <p>Dusun III Hiliawawo, Tetedoi</p>
+      </div>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+
+    <nav id="navMenu">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="profil.html">Profil</a></li>
+        <li><a href="keuangan.html">Keuangan</a></li>
+        <li><a href="pengumuman.html">Pengumuman</a></li>
+        <li><a href="galeri.html">Galeri</a></li>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Sejarah Singkat BNKP Jemaat Gejemane</h2>
+
+    <p>BNKP Jemaat Gejemane terletak di Dusun III Hiliawawo, Desa Hi'imbuasi, Kecamatan Lolofitu Moi, Kabupaten Nias Barat, Provinsi Sumatera Utara, Indonesia.
+      Gereja ini berdiri sekitar 50 tahun yang lalu, berawal dari kerinduan warga setempat untuk memiliki tempat ibadah sendiri yang lebih dekat dari tempat tinggal mereka.</p>
+
+    <p>Sebelum berdiri sebagai jemaat sendiri, warga Dusun Hiliawawo beribadah di BNKP Jemaat Soroma'asi, dengan jarak kurang lebih 5 kilometer dari tempat mereka tinggal.
+      Karena jarak yang cukup jauh dan sulit dijangkau, timbullah niat dan tekad warga untuk mendirikan tempat ibadah di dusun mereka sendiri.</p>
+
+    <p>Pada awalnya, bangunan gereja masih sangat sederhana, terbuat dari kayu dan papan. Meskipun sederhana, semangat warga untuk beribadah dan melayani Tuhan sangat besar.
+      Pelayanan pada masa itu belum dilakukan oleh pendeta tetap, melainkan oleh “sinenge”, yaitu pelayan jemaat dari kalangan warga sendiri. Untuk kegiatan sakramen seperti baptisan anak, pemberkatan nikah, dan sidi, warga masih bergabung ke BNKP Jemaat Soroma'asi.</p>
+
+    <p>Seiring berjalannya waktu, gereja ini semakin berkembang. Bangunan kayu dan papan kemudian direnovasi dengan dinding batu bata. Namun, pada tahun 2005, bangunan tersebut runtuh akibat gempa bumi besar yang melanda wilayah Nias.</p>
+
+    <p>Meskipun sempat mengalami kehancuran, semangat jemaat tidak padam. Dengan kebersamaan dan gotong-royong, gereja dibangun kembali menggunakan batu bata yang diplester, sehingga tampak lebih kokoh dan indah. Seiring waktu, pembangunan terus berlanjut hingga gereja kini berlantai keramik dan berplafon gipsum, menjadikannya tempat ibadah yang nyaman dan layak.</p>
+
+    <p>Kini, BNKP Jemaat Gejemane telah tumbuh menjadi jemaat yang mandiri dan aktif. Jika dahulu setiap sakramen harus dilaksanakan di jemaat lain, kini pendeta dari resort dapat langsung melayani di tempat, menandai kemajuan dan kemandirian jemaat ini.
+      Gereja ini bukan hanya bangunan fisik, melainkan simbol iman, persaudaraan, dan kerja keras umat Tuhan.</p>
+
+    <h2>Visi dan Misi Jemaat</h2>
+
+    <h3>✨ Visi</h3>
+    <p class="visi-text">"Menjadi Jemaat yang Mandiri, Bertumbuh dalam Iman, dan Menjadi Terang bagi Lingkungan Berlandaskan Kasih Kristus."</p>
+
+    <h3>⭐ Misi</h3>
+    <ul class="misi-list">
+      <li>Meningkatkan Kualitas Peribadahan.</li>
+      <li>Memperkuat Persekutuan dan Persaudaraan.</li>
+      <li>Memberdayakan Pelayanan Lokal.</li>
+      <li>Menjadi Saksi Kristus di Masyarakat.</li>
+      <li>Memelihara Warisan dan Infrastruktur Gereja.</li>
+    </ul>
+  </main>
+
+  <footer>
+    © 2025 BNKP Jemaat Gejemane | Semua Hak Dilindungi
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navMenu").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

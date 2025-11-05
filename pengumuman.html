@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pengumuman - BNKP Jemaat Gejemane</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET DAN DASAR === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    /* === HEADER === */
+    header {
+      background-color: #004d40;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-container img {
+      height: 60px;
+      width: 60px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ffcc00;
+    }
+
+    .logo-text {
+      line-height: 1.3;
+    }
+
+    .logo-text h1 {
+      font-size: 1.2em;
+      color: #ffcc00;
+      font-weight: 600;
+    }
+
+    .logo-text h2 {
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    .logo-text p {
+      font-size: 0.85em;
+      color: #ddd;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 10px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      background-color: rgba(255, 204, 0, 0.2);
+      color: #ffcc00;
+    }
+
+    /* === HAMBURGER === */
+    .hamburger {
+      display: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #ffcc00;
+    }
+
+    /* ======================================================= */
+    /* === PERUBAHAN CSS UNTUK MENU RATA TENGAH DI MOBILE === */
+    /* ======================================================= */
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #004d40;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        /* Menambahkan align-items: center agar konten nav di tengah */
+        align-items: center; 
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      nav ul {
+        flex-direction: column;
+        /* Menggunakan max-width agar list bisa terpusat */
+        max-width: 300px; 
+        width: 100%;
+        /* Menambahkan align-items: center agar list item di tengah */
+        align-items: center; 
+      }
+      
+      nav ul li {
+          width: 100%; 
+      }
+
+      nav ul li a {
+        width: 100%;
+        /* DIUBAH: Teks rata tengah */
+        text-align: center;
+        padding: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        /* Menambahkan display: block agar <a> mengambil lebar penuh */
+        display: block; 
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+    /* ======================================================= */
+    /* === AKHIR PERUBAHAN CSS MENU RATA TENGAH DI MOBILE === */
+    /* ======================================================= */
+
+    /* === KONTEN UTAMA === */
+    main {
+      padding: 50px 10%;
+      background-color: #fff;
+      margin: 30px auto;
+      max-width: 1100px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      line-height: 1.8;
+    }
+
+    main h2 {
+      color: #004d40;
+      font-size: 2em;
+      border-bottom: 3px solid #ffcc00;
+      padding-bottom: 8px;
+      margin-bottom: 25px;
+    }
+
+    .announcement {
+      border-left: 5px solid #004d40;
+      background-color: #f9fff9;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    .announcement h3 {
+      color: #004d40;
+      font-size: 1.3em;
+      margin-bottom: 8px;
+    }
+
+    .announcement p {
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+
+    .date {
+      color: #888;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background-color: #004d40;
+      color: #ffcc00;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo BNKP Gejemane" />
+      <div class="logo-text">
+        <h1>BANUA NIHA KERISO PROTESTAN</h1>
+        <h2>JEMAAT GEJEMANE</h2>
+        <p>Dusun III Hiliawawo, Tetedoi</p>
+      </div>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+
+    <nav id="navMenu">
+      <ul>
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="profil.html">Profil</a></li>
+        <li><a href="keuangan.html">Keuangan</a></li>
+        <li><a href="pengumuman.html">Pengumuman</a></li>
+        <li><a href="galeri.html">Galeri</a></li>
+        <li><a href="tentang.html">Tentang</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Pengumuman Jemaat</h2>
+
+    <div class="announcement">
+      <h3>Ibadah Minggu & Sekolah Minggu</h3>
+      <p class="date">Diumumkan: 3 November 2025</p>
+      <p>Ibadah Minggu akan dilaksanakan pada hari Minggu, 9 November 2025 pukul 09.00 WIB di gedung gereja BNKP Jemaat Gejemane. 
+        Sekolah Minggu dimulai pukul 08.00 WIB. Mohon seluruh warga jemaat hadir tepat waktu.</p>
+    </div>
+
+    <div class="announcement">
+      <h3>Pertemuan Komisi Wanita</h3>
+      <p class="date">Diumumkan: 2 November 2025</p>
+      <p>Pertemuan Komisi Wanita BNKP Jemaat Gejemane akan diadakan pada hari Selasa, 11 November 2025 pukul 16.00 WIB 
+        di rumah Ibu Wau di Dusun III Hiliawawo. Diharapkan kehadiran semua anggota.</p>
+    </div>
+
+    <div class="announcement">
+      <h3>Rapat Majelis Jemaat</h3>
+      <p class="date">Diumumkan: 1 November 2025</p>
+      <p>Rapat Majelis Jemaat akan diadakan pada hari Jumat, 7 November 2025 pukul 18.30 WIB di ruang rapat gereja. 
+        Diharapkan seluruh penatua dan diaken dapat hadir.</p>
+    </div>
+
+    <div class="announcement">
+      <h3>Pemberkatan Nikah</h3>
+      <p class="date">Diumumkan: 30 Oktober 2025</p>
+      <p>Akan dilaksanakan pemberkatan nikah antara Saudara <b>Yohanes Zai</b> dan Saudari <b>Selvi Hulu</b> pada hari Sabtu, 
+        15 November 2025 pukul 10.00 WIB di gereja BNKP Jemaat Gejemane. Mohon dukungan doa dari seluruh warga jemaat.</p>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 BNKP Jemaat Gejemane | Semua Hak Dilindungi
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("navMenu").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

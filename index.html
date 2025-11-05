@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNKP JEMAAT GEJEMANE</title>
+  <style>
+    /* === RESET DASAR === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background-color: #f2f2f2;
+    }
+
+    /* === HEADER / NAVBAR === */
+    header {
+      background-color: #004d40; /* hijau tua */
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 5px rgba(0,0,0,0.3);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #FFD700;
+    }
+
+    .header-text {
+      line-height: 1.2;
+    }
+
+    .header-text .baris1 {
+      font-weight: bold;
+      color: #FFD700;
+    }
+
+    .header-text .baris2 {
+      font-size: 0.95em;
+    }
+
+    .header-text .baris3 {
+      font-size: 0.8em;
+      font-style: italic;
+    }
+
+    .hamburger {
+      font-size: 30px;
+      cursor: pointer;
+      color: #FFD700;
+    }
+
+    /* === MENU === */
+    nav {
+      display: none;
+      flex-direction: column;
+      background-color: #004d40;
+      text-align: center;
+    }
+
+    nav.active {
+      display: flex;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #00695c;
+    }
+
+    /* === RUNNING TEXT === */
+    .running-text {
+      background-color: #FFD700;
+      color: #004d40;
+      padding: 8px 0;
+      font-weight: bold;
+      font-size: 16px;
+      border-bottom: 2px solid #004d40;
+      text-align: center;
+    }
+
+    /* === SLIDESHOW === */
+    .slideshow-container {
+      max-width: 100%;
+      position: relative;
+      margin: 10px auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .slide {
+      display: none;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+    }
+
+    /* === TABEL === */
+    .table-container {
+      background: white;
+      margin: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 400px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #004d40;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    /* Sorotan ulang tahun hari ini */
+    tr.ultah-hari-ini {
+      background-color: #ffeb99 !important;
+      font-weight: bold;
+      color: #004d40;
+    }
+
+    /* Pencarian */
+    .search-box {
+      text-align: right;
+      margin: 10px 20px 0 0;
+    }
+
+    .search-box input {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 200px;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background-color: #FFD700;
+      top: -10px;
+      opacity: 0.9;
+      z-index: 9999;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* RESPONSIVE */
+    @media(min-width: 768px) {
+      nav {
+        display: flex !important;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .hamburger {
+        display: none;
+      }
+
+      nav a {
+        border: none;
+        padding: 14px 20px;
+      }
+    }
+    
+    /* === FOOTER ELEGAN DENGAN MEDIA SOSIAL === */
+footer {
+  background-color: #004d40;
+  color: #FFD700;
+  text-align: center;
+  padding: 25px 10px;
+  border-top: 4px solid #FFD700;
+  margin-top: 40px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.footer-container p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.footer-container hr {
+  border: none;
+  border-top: 1px solid #FFD700;
+  width: 80%;
+  margin: 10px auto;
+  opacity: 0.5;
+}
+
+.icon {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* Bagian media sosial */
+.social-section {
+  margin-top: 10px;
+}
+
+.follow-text {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #FFD700;
+}
+
+.social-icons a {
+  font-size: 26px;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:nth-child(1) { color: #FFD700; } /* Facebook */
+.social-icons a:nth-child(2) { color: #FFD700; } /* Instagram */
+.social-icons a:nth-child(3) { color: #FFD700; } /* YouTube */
+
+.social-icons a:hover {
+  transform: scale(1.2);
+  color: white;
+}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <img src="logo.png" alt="Logo BNKP" class="logo">
+      <div class="header-text">
+        <div class="baris1">BANUA NIHA KERISO PROTESTAN</div>
+        <div class="baris2">JEMAAT GEJEMANE</div>
+        <div class="baris3">Alamat: Dusun III Hiliawawo, Tetedoi</div>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger">&#9776;</div>
+  </header>
+
+  <!-- RUNNING TEXT -->
+  <div class="running-text">
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+      🙏 Selamat Datang di Website Resmi BANUA NIHA KERISO PROTESTAN (BNKP) JEMAAT GEJEMANE. 
+      Alamat: Dusun III Hiliawawo, Tetedoi. Tuhan Memberkati 🙌
+    </marquee>
+  </div>
+
+  <!-- MENU -->
+  <nav id="navMenu">
+    <a href="index.html">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="keuangan.html">Keuangan</a>
+    <a href="pengumuman.html">Pengumuman</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="tentang.html">Tentang</a>
+    <a href="kontak.html">Kontak</a>
+  </nav>
+
+  <!-- SLIDESHOW -->
+  <div class="slideshow-container">
+    <div class="slide"><img src="slide1.jpg" alt="Slide 1"></div>
+    <div class="slide"><img src="slide2.jpg" alt="Slide 2"></div>
+    <div class="slide"><img src="slide3.jpg" alt="Slide 3"></div>
+    <div class="slide"><img src="slide4.jpg" alt="Slide 4"></div>
+    <div class="slide"><img src="slide5.jpg" alt="Slide 5"></div>
+    <div class="slide"><img src="slide6.jpg" alt="Slide 6"></div>
+  </div>
+
+  <!-- PENCARIAN -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Cari nama jemaat...">
+  </div>
+
+  <!-- TABEL REKAPAN -->
+  <div class="table-container">
+    <h3>📋 REKAPAN DATA WARGA JEMAAT</h3>
+    <table id="tabelJemaat">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Tempat & Tanggal Lahir</th>
+          <th>Jenis Kelamin</th>
+          <th>Status</th>
+          <th>Lingkungan</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- TABEL ULANG TAHUN -->
+  <div class="table-container">
+    <h3>🎂 WARGA JEMAAT ULANG TAHUN (7 HARI KE DEPAN)</h3>
+    <table id="tabelUltah">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>Tempat & Tanggal Lahir</th>
+          <th>Jenis Kelamin</th>
+          <th>Status</th>
+          <th>Lingkungan</th>
+          <th>Ulang Tahun ke</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  
+  <!-- FOOTER -->
+<footer>
+  <div class="footer-container">
+    <p><strong>BANUA NIHA KERISO PROTESTAN (BNKP) - JEMAAT GEJEMANE</strong></p>
+    <p><span class="icon">📍</span> Dusun III Hiliawawo, Tetedoi</p>
+    <p><span class="icon">✉️</span> info@bnkpgejemane.org | <span class="icon">☎️</span> (021) 123-4567</p>
+
+    <div class="social-section">
+      <p class="follow-text">Ikuti Kami di Media Sosial</p>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank" title="Facebook Gereja">📘</a>
+        <a href="https://instagram.com" target="_blank" title="Instagram Gereja">📸</a>
+        <a href="https://youtube.com" target="_blank" title="YouTube Gereja">▶️</a>
+      </div>
+    </div>
+
+    <hr>
+    <p>&copy; <span id="tahun"></span> Semua hak cipta dilindungi. Website resmi BNKP Jemaat Gejemane.</p>
+  </div>
+</footer>
+
+<script>
+  // Tahun otomatis di footer
+  document.getElementById("tahun").textContent = new Date().getFullYear();
+</script>
+
+  <script>
+    // === MENU ===
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+
+    // === SLIDESHOW ===
+    let slideIndex = 0;
+    const slides = document.getElementsByClassName("slide");
+    function showSlides() {
+      for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+      slideIndex++;
+      if (slideIndex > slides.length) slideIndex = 1;
+      slides[slideIndex-1].style.display = "block";
+      setTimeout(showSlides, 4000);
+    }
+    showSlides();
+
+    // === EFEK CONFETTI ===
+    function buatConfetti() {
+      const jumlah = 80;
+      const warna = ['#FFD700', '#ff9800', '#4CAF50', '#2196F3', '#E91E63', '#9C27B0'];
+      for (let i = 0; i < jumlah; i++) {
+        const conf = document.createElement('div');
+        conf.classList.add('confetti');
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.backgroundColor = warna[Math.floor(Math.random() * warna.length)];
+        conf.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 5000);
+      }
+    }
+
+    // === TABEL DATA ===
+    async function muatData(filter="") {
+      try {
+        const res = await fetch("data_jemaat.json");
+        const data = await res.json();
+
+        const tbody = document.querySelector("#tabelJemaat tbody");
+        tbody.innerHTML = "";
+        let filtered = data.filter(d => d.nama.toLowerCase().includes(filter.toLowerCase()));
+        filtered.slice(0, 10).forEach(d => {
+          tbody.innerHTML += `
+            <tr>
+              <td>${d.no}</td>
+              <td>${d.nama}</td>
+              <td>${d.ttl}</td>
+              <td>${d.jk}</td>
+              <td>${d.status}</td>
+              <td>${d.lingkungan}</td>
+            </tr>`;
+        });
+
+        // === ULANG TAHUN ===
+        const tbodyUltah = document.querySelector("#tabelUltah tbody");
+        tbodyUltah.innerHTML = "";
+        const today = new Date();
+        const next7 = new Date();
+        next7.setDate(today.getDate() + 7);
+        let adaUlangTahunHariIni = false;
+
+        data.forEach(d => {
+          let ttlSplit = d.ttl.split(", ");
+          if (ttlSplit.length < 2) return;
+          let [tempat, tglStr] = ttlSplit;
+          let [tgl, bulan, tahun] = tglStr.split(" ");
+          let bulanMap = {
+            "Jan":0,"Feb":1,"Mar":2,"Apr":3,"Mei":4,"Jun":5,
+            "Jul":6,"Agu":7,"Sep":8,"Okt":9,"Nov":10,"Des":11
+          };
+          let tglLahir = new Date(tahun, bulanMap[bulan.substring(0,3)], parseInt(tgl));
+          let tahunSekarang = today.getFullYear();
+          let ultahTahunIni = new Date(tahunSekarang, tglLahir.getMonth(), tglLahir.getDate());
+          if (ultahTahunIni >= today && ultahTahunIni <= next7) {
+            let umur = tahunSekarang - parseInt(tahun);
+            let isToday = ultahTahunIni.toDateString() === today.toDateString();
+            if (isToday) adaUlangTahunHariIni = true;
+
+            tbodyUltah.innerHTML += `
+              <tr class="${isToday ? 'ultah-hari-ini' : ''}">
+                <td>${d.no}</td>
+                <td>${d.nama}</td>
+                <td>${d.ttl}</td>
+                <td>${d.jk}</td>
+                <td>${d.status}</td>
+                <td>${d.lingkungan}</td>
+                <td>${umur}</td>
+              </tr>`;
+          }
+        });
+
+        if (adaUlangTahunHariIni) buatConfetti();
+
+      } catch (err) {
+        console.error("Gagal memuat data JSON:", err);
+      }
+    }
+
+    muatData();
+    document.getElementById("searchInput").addEventListener("keyup", (e) => {
+      muatData(e.target.value);
+    });
+  </script>
+
+</body>
+</html>

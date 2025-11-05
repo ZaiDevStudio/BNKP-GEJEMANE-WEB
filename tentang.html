@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentang Kami - BNKP Jemaat Gejemane</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET & GLOBAL === */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background-color: #f4f9f4;
+      color: #333;
+    }
+
+    /* === HEADER === */
+    header {
+      background-color: #004d40;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-container img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
+      border: 2px solid #ffcc00;
+    }
+
+    .header-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    .line1 {
+      font-size: 13px;
+      color: #ffcc00;
+      font-weight: 600;
+    }
+
+    .line2 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .line3 {
+      font-size: 12px;
+      color: #ddd;
+    }
+
+    /* === MENU DI BAWAH HEADER === */
+    nav {
+      background-color: #00695c;
+      width: 100%;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      padding: 10px 40px;
+      flex-wrap: wrap;
+    }
+
+    nav ul li {
+      flex: 1;
+      text-align: center;
+      min-width: 100px;
+    }
+
+    nav ul li a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 4px;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    nav ul li a:hover {
+      background-color: rgba(255, 204, 0, 0.2);
+      color: #ffcc00;
+    }
+
+    nav ul li a.active {
+      color: #ffcc00;
+      font-weight: 600;
+    }
+
+    /* === HAMBURGER === */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    /* === RESPONSIF === */
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        display: none;
+        padding: 10px 0;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+        position: absolute;
+        top: 25px;
+        right: 20px;
+      }
+
+      nav ul li {
+        flex: unset;
+        width: 100%;
+      }
+
+      nav ul li a {
+        padding: 12px 0;
+        width: 100%;
+      }
+    }
+
+    /* === KONTEN === */
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #004d40;
+      margin-bottom: 30px;
+    }
+
+    .info-section {
+      background: white;
+      padding: 30px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section h2 {
+      color: #004d40;
+      margin-bottom: 15px;
+    }
+
+    .developer-card {
+      background-color: #e0f2f1;
+      padding: 20px;
+      border-radius: 6px;
+      border-left: 5px solid #004d40;
+      margin-top: 25px;
+    }
+
+    .developer-card h3 {
+      color: #004d40;
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: #004d40;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+    footer p {
+      margin: 5px 0;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-container">
+      <img src="logo.png" alt="Logo Gereja">
+      <div class="header-text">
+        <div class="line1">BANUA NIHA KERISO PROTESTAN</div>
+        <div class="line2">JEMAAT GEJEMANE</div>
+        <div class="line3">Dusun III Hiliawawo, Tetedoi</div>
+      </div>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </header>
+
+  <!-- MENU DI BAWAH HEADER -->
+  <nav>
+    <ul id="nav-menu">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="profil.html">Profil</a></li>
+      <li><a href="keuangan.html">Keuangan</a></li>
+      <li><a href="pengumuman.html">Pengumuman</a></li>
+      <li><a href="galeri.html">Galeri</a></li>
+      <li><a href="tentang.html" class="active">Tentang</a></li>
+      <li><a href="kontak.html">Kontak</a></li>
+    </ul>
+  </nav>
+
+  <!-- KONTEN UTAMA -->
+  <div class="container">
+    <h1>Tentang Website Kami</h1>
+
+    <section id="penjelasan-website" class="info-section">
+      <h2>🌐 Tujuan dan Manfaat Website</h2>
+      <p>Website ini dikembangkan sebagai sarana informasi dan komunikasi digital bagi Majelis dan seluruh warga BNKP Jemaat Gejemane. Tujuannya adalah untuk mempercepat penyampaian informasi, mempermudah akses berita jemaat, dan menjadi dokumentasi pelayanan dalam bentuk digital yang dapat diakses kapan saja.</p>
+    </section>
+
+    <section id="informasi-developer" class="info-section">
+      <h2>👨‍💻 Informasi Pengembang Website</h2>
+      <div class="developer-card">
+        <h3>Developer: Yeriyuma Zai, AMd.Kom</h3>
+        <p><strong>Peran:</strong> Perancang dan Pengembang Sistem (Frontend & Backend Konseptual)</p>
+        <p><strong>Komitmen:</strong> Menyediakan solusi teknologi yang sederhana, mudah diakses, dan bermanfaat bagi pelayanan gereja.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 BNKP Jemaat Gejemane</p>
+    <p>Dusun III Hiliawawo, Tetedoi | Semua hak cipta dilindungi</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("nav-menu").classList.toggle("active");
+    }
+  </script>
+
+</body>
+</html>
