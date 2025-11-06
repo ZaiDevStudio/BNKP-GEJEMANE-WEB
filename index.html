@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BNKP JEMAAT GEJEMANE</title>
   <style>
+    /* (CSS tidak berubah) */
     /* === RESET DASAR === */
     * {
       margin: 0;
@@ -275,7 +276,6 @@ footer {
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="header-left">
       <img src="logo.png" alt="Logo BNKP" class="logo">
@@ -288,7 +288,6 @@ footer {
     <div class="hamburger" id="hamburger">&#9776;</div>
   </header>
 
-  <!-- RUNNING TEXT -->
   <div class="running-text">
     <marquee behavior="scroll" direction="left" scrollamount="5">
       🙏 Selamat Datang di Website Resmi BANUA NIHA KERISO PROTESTAN (BNKP) JEMAAT GEJEMANE. 
@@ -296,7 +295,6 @@ footer {
     </marquee>
   </div>
 
-  <!-- MENU -->
   <nav id="navMenu">
     <a href="index.html">Beranda</a>
     <a href="profil.html">Profil</a>
@@ -307,7 +305,6 @@ footer {
     <a href="kontak.html">Kontak</a>
   </nav>
 
-  <!-- SLIDESHOW -->
   <div class="slideshow-container">
     <div class="slide"><img src="slide1.jpg" alt="Slide 1"></div>
     <div class="slide"><img src="slide2.jpg" alt="Slide 2"></div>
@@ -317,12 +314,10 @@ footer {
     <div class="slide"><img src="slide6.jpg" alt="Slide 6"></div>
   </div>
 
-  <!-- PENCARIAN -->
   <div class="search-box">
     <input type="text" id="searchInput" placeholder="Cari nama jemaat...">
   </div>
 
-  <!-- TABEL REKAPAN -->
   <div class="table-container">
     <h3>📋 REKAPAN DATA WARGA JEMAAT</h3>
     <table id="tabelJemaat">
@@ -340,7 +335,6 @@ footer {
     </table>
   </div>
 
-  <!-- TABEL ULANG TAHUN -->
   <div class="table-container">
     <h3>🎂 WARGA JEMAAT ULANG TAHUN (7 HARI KE DEPAN)</h3>
     <table id="tabelUltah">
@@ -359,8 +353,7 @@ footer {
     </table>
   </div>
   
-  <!-- FOOTER -->
-<footer>
+  <footer>
   <div class="footer-container">
     <p><strong>BANUA NIHA KERISO PROTESTAN (BNKP) - JEMAAT GEJEMANE</strong></p>
     <p><span class="icon">📍</span> Dusun III Hiliawawo, Tetedoi</p>
@@ -385,110 +378,133 @@ footer {
   document.getElementById("tahun").textContent = new Date().getFullYear();
 </script>
 
-  <script>
-    // === MENU ===
-    const hamburger = document.getElementById('hamburger');
-    const navMenu = document.getElementById('navMenu');
-    hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+<script>
+  // === MENU ===
+  const hamburger = document.getElementById('hamburger');
+  const navMenu = document.getElementById('navMenu');
+  hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
 
-    // === SLIDESHOW ===
-    let slideIndex = 0;
-    const slides = document.getElementsByClassName("slide");
-    function showSlides() {
-      for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
-      slideIndex++;
-      if (slideIndex > slides.length) slideIndex = 1;
-      slides[slideIndex-1].style.display = "block";
-      setTimeout(showSlides, 4000);
+  // === SLIDESHOW ===
+  let slideIndex = 0;
+  const slides = document.getElementsByClassName("slide");
+  function showSlides() {
+    for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+    slideIndex++;
+    if (slideIndex > slides.length) slideIndex = 1;
+    slides[slideIndex-1].style.display = "block";
+    setTimeout(showSlides, 4000);
+  }
+  showSlides();
+
+  // === EFEK CONFETTI ===
+  function buatConfetti() {
+    const jumlah = 80;
+    const warna = ['#FFD700', '#ff9800', '#4CAF50', '#2196F3', '#E91E63', '#9C27B0'];
+    for (let i = 0; i < jumlah; i++) {
+      const conf = document.createElement('div');
+      conf.classList.add('confetti');
+      conf.style.left = Math.random() * 100 + 'vw';
+      conf.style.backgroundColor = warna[Math.floor(Math.random() * warna.length)];
+      conf.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.body.appendChild(conf);
+      setTimeout(() => conf.remove(), 5000);
     }
-    showSlides();
+  }
 
-    // === EFEK CONFETTI ===
-    function buatConfetti() {
-      const jumlah = 80;
-      const warna = ['#FFD700', '#ff9800', '#4CAF50', '#2196F3', '#E91E63', '#9C27B0'];
-      for (let i = 0; i < jumlah; i++) {
-        const conf = document.createElement('div');
-        conf.classList.add('confetti');
-        conf.style.left = Math.random() * 100 + 'vw';
-        conf.style.backgroundColor = warna[Math.floor(Math.random() * warna.length)];
-        conf.style.animationDuration = (Math.random() * 2 + 3) + 's';
-        document.body.appendChild(conf);
-        setTimeout(() => conf.remove(), 5000);
-      }
-    }
+  // === TABEL DATA (Sort by Name, Auto-Generate No) ===
+  async function muatData(filter="") {
+    try {
+      const res = await fetch("data_jemaat.json");
+      let data = await res.json(); 
 
-    // === TABEL DATA ===
-    async function muatData(filter="") {
-      try {
-        const res = await fetch("data_jemaat.json");
-        const data = await res.json();
+      // 1. SORTING DATA BERDASARKAN NAMA (A-Z)
+      data.sort((a, b) => {
+          const nameA = a.nama.toUpperCase(); 
+          const nameB = b.nama.toUpperCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+      });
 
-        const tbody = document.querySelector("#tabelJemaat tbody");
-        tbody.innerHTML = "";
-        let filtered = data.filter(d => d.nama.toLowerCase().includes(filter.toLowerCase()));
-        filtered.slice(0, 10).forEach(d => {
-          tbody.innerHTML += `
-            <tr>
-              <td>${d.no}</td>
+      const tbody = document.querySelector("#tabelJemaat tbody");
+      tbody.innerHTML = "";
+      
+      let filtered = data.filter(d => d.nama.toLowerCase().includes(filter.toLowerCase()));
+      
+      // 2. PENOMORAN OTOMATIS DAN PENGISIAN TABEL REKAPAN
+      filtered.forEach((d, index) => {
+        // Tampilkan nomor urut yang baru (index + 1)
+        const nomorUrutBaru = index + 1; 
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${nomorUrutBaru}</td>
+            <td>${d.nama}</td>
+            <td>${d.ttl}</td>
+            <td>${d.jk}</td>
+            <td>${d.status}</td>
+            <td>${d.lingkungan}</td>
+          </tr>`;
+      });
+      
+
+      // === ULANG TAHUN ===
+      const tbodyUltah = document.querySelector("#tabelUltah tbody");
+      tbodyUltah.innerHTML = "";
+      const today = new Date();
+      const next7 = new Date();
+      next7.setDate(today.getDate() + 7);
+      let adaUlangTahunHariIni = false;
+
+      // Data yang digunakan untuk loop adalah 'data' yang sudah diurutkan abjad
+      data.forEach(d => {
+        let ttlSplit = d.ttl.split(", ");
+        if (ttlSplit.length < 2) return;
+        let [tempat, tglStr] = ttlSplit;
+        let [tgl, bulan, tahun] = tglStr.split(" ");
+        let bulanMap = {
+          "Jan":0,"Feb":1,"Mar":2,"Apr":3,"Mei":4,"Jun":5,
+          "Jul":6,"Agu":7,"Sep":8,"Okt":9,"Nov":10,"Des":11
+        };
+        let tglLahir = new Date(tahun, bulanMap[bulan.substring(0,3)], parseInt(tgl));
+        let tahunSekarang = today.getFullYear();
+        let ultahTahunIni = new Date(tahunSekarang, tglLahir.getMonth(), tglLahir.getDate());
+        
+        // Hanya cek jika tanggal ulang tahun berada dalam 7 hari ke depan
+        if (ultahTahunIni >= today && ultahTahunIni <= next7) {
+          let umur = tahunSekarang - parseInt(tahun);
+          let isToday = ultahTahunIni.toDateString() === today.toDateString();
+          if (isToday) adaUlangTahunHariIni = true;
+
+          // Cari nomor urut di array filtered (hasil sorting dan pencarian)
+          // Ini memastikan nomor di tabel ultah sama dengan nomor di tabel rekapan
+          const urutFiltered = filtered.findIndex(item => item.nama === d.nama) + 1;
+
+          tbodyUltah.innerHTML += `
+            <tr class="${isToday ? 'ultah-hari-ini' : ''}">
+              <td>${urutFiltered}</td>
               <td>${d.nama}</td>
               <td>${d.ttl}</td>
               <td>${d.jk}</td>
               <td>${d.status}</td>
               <td>${d.lingkungan}</td>
+              <td>${umur}</td>
             </tr>`;
-        });
+        }
+      });
 
-        // === ULANG TAHUN ===
-        const tbodyUltah = document.querySelector("#tabelUltah tbody");
-        tbodyUltah.innerHTML = "";
-        const today = new Date();
-        const next7 = new Date();
-        next7.setDate(today.getDate() + 7);
-        let adaUlangTahunHariIni = false;
+      if (adaUlangTahunHariIni) buatConfetti();
 
-        data.forEach(d => {
-          let ttlSplit = d.ttl.split(", ");
-          if (ttlSplit.length < 2) return;
-          let [tempat, tglStr] = ttlSplit;
-          let [tgl, bulan, tahun] = tglStr.split(" ");
-          let bulanMap = {
-            "Jan":0,"Feb":1,"Mar":2,"Apr":3,"Mei":4,"Jun":5,
-            "Jul":6,"Agu":7,"Sep":8,"Okt":9,"Nov":10,"Des":11
-          };
-          let tglLahir = new Date(tahun, bulanMap[bulan.substring(0,3)], parseInt(tgl));
-          let tahunSekarang = today.getFullYear();
-          let ultahTahunIni = new Date(tahunSekarang, tglLahir.getMonth(), tglLahir.getDate());
-          if (ultahTahunIni >= today && ultahTahunIni <= next7) {
-            let umur = tahunSekarang - parseInt(tahun);
-            let isToday = ultahTahunIni.toDateString() === today.toDateString();
-            if (isToday) adaUlangTahunHariIni = true;
-
-            tbodyUltah.innerHTML += `
-              <tr class="${isToday ? 'ultah-hari-ini' : ''}">
-                <td>${d.no}</td>
-                <td>${d.nama}</td>
-                <td>${d.ttl}</td>
-                <td>${d.jk}</td>
-                <td>${d.status}</td>
-                <td>${d.lingkungan}</td>
-                <td>${umur}</td>
-              </tr>`;
-          }
-        });
-
-        if (adaUlangTahunHariIni) buatConfetti();
-
-      } catch (err) {
-        console.error("Gagal memuat data JSON:", err);
-      }
+    } catch (err) {
+      console.error("Gagal memuat data JSON:", err);
     }
+  }
 
-    muatData();
-    document.getElementById("searchInput").addEventListener("keyup", (e) => {
-      muatData(e.target.value);
-    });
-  </script>
+  muatData();
+  document.getElementById("searchInput").addEventListener("keyup", (e) => {
+    muatData(e.target.value);
+  });
+</script>
 
 </body>
 </html>
